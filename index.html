@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Listening to Dorset</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one quiet reading column on Portland stone, a lighthouse-red mark where Signals listens */
+:root{
+  --stone:#ECEDEA;
+  --stone-2:#E1E3DF;
+  --slate:#1D2A31;
+  --slate-2:#4A5961;
+  --rule:#C9CDC8;
+  --beam:#B8392A;
+  --sea:#2F5D6B;
+  --paper:#F6F6F4;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --stone:#131B20; --stone-2:#1A242A; --slate:#E4E6E2; --slate-2:#A6B1B4;
+    --rule:#2E3B42; --beam:#E5644F; --sea:#7FB3C2; --paper:#182227; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --stone:#131B20; --stone-2:#1A242A; --slate:#E4E6E2; --slate-2:#A6B1B4;
+  --rule:#2E3B42; --beam:#E5644F; --sea:#7FB3C2; --paper:#182227; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+body{
+  background:var(--stone); color:var(--slate);
+  font-family:var(--body); font-size:1.0625rem; line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap{max-width:44rem; margin:0 auto}
+.wide{max-width:60rem; margin:0 auto}
+section{padding-block:clamp(3rem,8vw,5.5rem); border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0}
+h1,h2,h3{font-family:var(--display); font-weight:400; text-wrap:balance; margin:0}
+h2{font-size:clamp(1.9rem,4.5vw,2.6rem); line-height:1.12; margin-bottom:1.25rem}
+h3{font-size:1.35rem; line-height:1.25}
+p{margin:0 0 1rem; max-width:65ch}
+.label{font-family:var(--mono); font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate-2); margin-bottom:1rem; display:block}
+.lede{font-size:1.2rem; color:var(--slate-2)}
+em.key{font-style:italic; font-family:var(--display); font-size:1.15em}
+
+/* Hero */
+.hero{padding-block:clamp(3.5rem,10vw,7rem) clamp(3rem,7vw,5rem)}
+.hero .for{font-family:var(--mono); font-size:.8rem; letter-spacing:.06em; color:var(--slate-2); display:flex; align-items:center; gap:.6rem; margin-bottom:2.5rem}
+.hero .for::before{content:""; width:.55rem; height:.55rem; border-radius:50%; background:var(--beam); box-shadow:0 0 0 .3rem color-mix(in srgb, var(--beam) 18%, transparent)}
+.hero h1{font-size:clamp(2.2rem,6.2vw,3.9rem); line-height:1.08; letter-spacing:-.01em}
+.hero h1 .verbs{font-style:italic; color:var(--beam)}
+.hero .sub{margin-top:2rem; font-size:1.15rem; color:var(--slate-2); max-width:36rem}
+
+/* Timeline: the space before demand */
+.track{margin-top:2.5rem; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; position:relative}
+.track::before{content:""; position:absolute; left:0; right:0; top:1.05rem; height:2px; background:var(--rule)}
+.step{position:relative; padding-right:.75rem; min-width:0}
+.step .dot{width:.9rem; height:.9rem; border-radius:50%; background:var(--stone); border:2px solid var(--slate-2); margin:.6rem 0 1rem; position:relative; z-index:1}
+.step h3{font-family:var(--body); font-weight:700; font-size:1rem; margin-bottom:.25rem}
+.step p{font-size:.92rem; color:var(--slate-2); margin:0}
+.step.listen .dot{background:var(--beam); border-color:var(--beam); box-shadow:0 0 0 .35rem color-mix(in srgb, var(--beam) 20%, transparent)}
+.step.listen h3{color:var(--beam)}
+.step.known .dot{background:var(--slate); border-color:var(--slate)}
+.here{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--beam); display:block; margin-top:.5rem}
+@media (max-width:620px){
+  .track{grid-template-columns:1fr; gap:1.1rem; padding-left:1.6rem}
+  .track::before{left:.4rem; right:auto; top:0; bottom:0; width:2px; height:auto}
+  .step .dot{position:absolute; left:-1.6rem; top:.15rem; margin:0}
+}
+
+/* Rules */
+.rules{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:2rem}
+.rule{background:var(--paper); padding:1.4rem 1.25rem}
+.rule strong{font-family:var(--display); font-weight:400; font-size:1.5rem; display:block; line-height:1.15; margin-bottom:.35rem}
+.rule span{font-size:.92rem; color:var(--slate-2)}
+@media (max-width:620px){.rules{grid-template-columns:1fr}}
+
+/* Routes */
+.routes{display:grid; gap:1.75rem; margin-top:2rem}
+.route{display:grid; grid-template-columns:9rem minmax(0,1fr); gap:1.25rem; align-items:baseline}
+.route .name{font-family:var(--display); font-size:1.3rem}
+.route p{margin:0; color:var(--slate-2)}
+@media (max-width:560px){.route{grid-template-columns:1fr; gap:.25rem}}
+.facts{display:flex; flex-wrap:wrap; gap:2.5rem; margin-top:2.75rem; padding-top:1.75rem; border-top:1px solid var(--rule)}
+.fact .n{font-family:var(--display); font-size:2.6rem; line-height:1; font-variant-numeric:tabular-nums}
+.fact .t{font-size:.9rem; color:var(--slate-2); margin-top:.35rem; max-width:13rem}
+
+/* People */
+.people{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:2.25rem}
+.person{background:var(--paper); padding:1.6rem 1.4rem}
+.person .role{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--sea)}
+.person h3{margin:.4rem 0 .5rem}
+.person p{font-size:.95rem; color:var(--slate-2); margin:0}
+@media (max-width:620px){.people{grid-template-columns:1fr}}
+.together{margin-top:1.75rem; font-family:var(--display); font-style:italic; font-size:1.3rem; line-height:1.4; max-width:36rem}
+
+/* Brief sample */
+.brief{margin-top:2.25rem; background:var(--paper); border:1px solid var(--rule); padding:clamp(1.25rem,4vw,2.25rem)}
+.brief-head{display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem 1.5rem; align-items:baseline; padding-bottom:1rem; border-bottom:1px solid var(--rule)}
+.brief-head h3{font-size:1.5rem}
+.brief-head .meta{font-family:var(--mono); font-size:.75rem; color:var(--slate-2); letter-spacing:.04em}
+.example{display:inline-block; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--beam); border:1px solid var(--beam); padding:.15rem .5rem; margin-top:1rem}
+.brief-body{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:2rem; margin-top:1.5rem; align-items:start}
+@media (max-width:720px){.brief-body{grid-template-columns:1fr}}
+.map{width:100%; max-width:100%; height:auto; display:block}
+.map .ring{fill:none; stroke:var(--rule); stroke-width:1}
+.map .link{stroke:var(--rule); stroke-width:1.2}
+.map .n1{fill:var(--beam)}
+.map .n2{fill:color-mix(in srgb, var(--beam) 55%, var(--paper))}
+.map .n3{fill:color-mix(in srgb, var(--sea) 45%, var(--paper))}
+.map text{fill:var(--slate); font-family:var(--body); font-size:13px}
+.map text.s{fill:var(--slate-2); font-size:11px; font-family:var(--mono)}
+.map-cap{font-size:.82rem; color:var(--slate-2); margin-top:.6rem}
+.notes{display:grid; gap:1.1rem}
+.note{border-left:2px solid var(--rule); padding-left:1rem}
+.note .k{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate-2)}
+.note p{margin:.25rem 0 0; font-size:.95rem}
+
+/* Listen Learn Act */
+.lla{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:2rem; margin-top:2.5rem}
+@media (max-width:760px){.lla{grid-template-columns:1fr}}
+.verb{font-family:var(--display); font-style:italic; font-size:2.4rem; line-height:1; color:var(--beam); margin-bottom:.4rem}
+.who{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate-2); margin-bottom:.9rem}
+.lla p{font-size:.97rem}
+.lla ul{margin:.25rem 0 1rem; padding-left:1.1rem; font-size:.95rem}
+.lla li{margin-bottom:.25rem}
+.small{font-size:.88rem; color:var(--slate-2)}
+
+/* Close */
+.close{padding-bottom:clamp(4rem,10vw,7rem)}
+.close h2{max-width:34rem}
+.contact{display:grid; gap:.35rem; margin-top:1.75rem; font-family:var(--mono); font-size:.95rem}
+.contact .name{font-family:var(--display); font-size:1.4rem}
+.contact span{user-select:all}
+footer{font-size:.8rem; color:var(--slate-2); padding-block:2rem; border-top:1px solid var(--rule)}
+
+@media (prefers-reduced-motion: no-preference){
+  .hero .for::before{animation:beam 3.2s ease-in-out infinite}
+  @keyframes beam{0%,100%{box-shadow:0 0 0 .3rem color-mix(in srgb, var(--beam) 18%, transparent)}50%{box-shadow:0 0 0 .7rem color-mix(in srgb, var(--beam) 0%, transparent)}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="for">A page built for Cllr Nick Ireland</div>
+  <h1>If we can listen to what our neighbourhood is going through, we have a civic duty to <span class="verbs">listen, learn and then act.</span></h1>
+  <p class="sub">Neighbourhood Signals. Proved in Weymouth and Portland, ready for Dorset.</p>
+</section>
+
+<section>
+  <span class="label">The space before demand</span>
+  <h2>Services see people once they become demand. Before that, people search.</h2>
+  <p>A council, a GP practice or a charity understands demand well once it arrives as a referral, an appointment or a call. Before that comes a quieter moment. A bill that can't be paid. A parent wondering whether their child needs help. Feeling low for weeks. Most people pick up their phone and search.</p>
+  <p>That moment is the closest any service gets to the person. Very few places are listening to it.</p>
+  <p>Small setbacks rarely stay small. Left alone, they cluster, and a few of them together can tip someone into crisis and a costly emergency admission. Catching them early is kinder for the person and cheaper for everyone.</p>
+
+  <div class="track" role="list">
+    <div class="step" role="listitem"><div class="dot"></div><h3>Something goes wrong</h3><p>A worry, a symptom, a letter on the mat.</p></div>
+    <div class="step listen" role="listitem"><div class="dot"></div><h3>They search for help</h3><p>On their phone, often late at night.</p><span class="here">Signals listens here</span></div>
+    <div class="step" role="listitem"><div class="dot"></div><h3>They find it, or don't</h3><p>Good services exist. People can't always reach them.</p></div>
+    <div class="step known" role="listitem"><div class="dot"></div><h3>They become demand</h3><p>A referral, an appointment, a crisis call.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="label">Civic architecture</span>
+  <h2>Roads let a place move. Libraries let it learn. Signals lets it listen.</h2>
+  <p>Neighbourhood Signals is infrastructure. It reads how people move through the websites built to help them, in aggregate, and shows what a neighbourhood is looking for and struggling to find. Nobody signs up, and nobody is tracked.</p>
+  <div class="rules">
+    <div class="rule"><strong>No cookies</strong><span>Nothing stored on anyone's phone. No consent banner needed.</span></div>
+    <div class="rule"><strong>No personal data</strong><span>Aggregated behaviour only. Patterns, never people.</span></div>
+    <div class="rule"><strong>No logins</strong><span>No accounts and no forms. People just look for help.</span></div>
+  </div>
+</section>
+
+<section>
+  <span class="label">What we built in Weymouth and Portland</span>
+  <h2>Three ways in, each showing something different.</h2>
+  <div class="routes">
+    <div class="route"><div class="name">The hub</div><p>A neighbourhood health website, built mobile first, where people find local services when they have time to look.</p></div>
+    <div class="route"><div class="name">The Local Social</div><p>QR codes where people already are: a pub toilet door, a college tote bag, a supermarket noticeboard. Support in two or three taps.</p></div>
+    <div class="route"><div class="name">QuickLinks</div><p>Signposting from the reception desk, so front-line staff can point people to the right place.</p></div>
+  </div>
+  <div class="facts">
+    <div class="fact"><div class="n">91</div><div class="t">day pilot</div></div>
+    <div class="fact"><div class="n">3</div><div class="t">clear clusters of unmet need</div></div>
+    <div class="fact"><div class="n">1 yr+</div><div class="t">of data gathered quietly before the pilot began</div></div>
+  </div>
+</section>
+
+<section>
+  <span class="label">Numbers need people</span>
+  <h2>The data shows what people looked for. It can't tell you why.</h2>
+  <p>Plausible gives you numbers. Turning them into something a service lead can act on takes people who know the work and know the place. That is Neighbourhood CoLab, a community interest company of four professionals, friends since childhood on Portland and in Weymouth.</p>
+  <div class="people">
+    <div class="person"><span class="role">Nurse · Clinical Lead</span><h3>Lucy Champion</h3><p>25+ years in the NHS, from anaesthetic recovery to system-level infection prevention and control.</p></div>
+    <div class="person"><span class="role">Counselling psychologist</span><h3>Dr Bruce Fernie</h3><p>25+ years in the NHS, in frontline mental health practice. Published researcher in metacognition, and author of <em>Coping Better with Chronic Fatigue Syndrome/Myalgic Encephalomyelitis</em>.</p></div>
+    <div class="person"><span class="role">Social worker</span><h3>Justin Jones</h3><p>25+ years in local authority social care. Has seen how a cluster of small setbacks can tip someone into crisis, and what that crisis costs.</p></div>
+    <div class="person"><span class="role">Applied philosopher</span><h3>Mark Winterburn</h3><p>Twenty years as a broadcast playout director, separating signal from noise. Now building digital front doors for neighbourhood health.</p></div>
+  </div>
+  <p class="together">Health, mind, social care and meaning, read together, by people who grew up here.</p>
+</section>
+
+<section>
+  <span class="label">What Dorset would get</span>
+  <h2>An open Neighbourhood Brief.</h2>
+  <p>A short, plain-English read for service leads and residents alike. What people searched for, what they couldn't find, and what changed since last time. Published openly, because a neighbourhood should be able to see what it is telling itself.</p>
+</section>
+</div>
+
+<div class="wide">
+  <div class="brief">
+    <div class="brief-head">
+      <h3>Neighbourhood Brief</h3>
+      <span class="meta">Weymouth &amp; Portland · Issue 0</span>
+    </div>
+    <span class="example">Illustrative example. Not real data.</span>
+    <div class="brief-body">
+      <div>
+        <svg class="map" viewBox="0 0 420 320" role="img" aria-label="Illustrative topic map of needs, with larger circles for themes people searched for more often">
+          <circle class="ring" cx="210" cy="160" r="70"/>
+          <circle class="ring" cx="210" cy="160" r="135"/>
+          <line class="link" x1="210" y1="150" x2="110" y2="90"/>
+          <line class="link" x1="210" y1="150" x2="320" y2="95"/>
+          <line class="link" x1="210" y1="150" x2="300" y2="240"/>
+          <line class="link" x1="210" y1="150" x2="115" y2="235"/>
+          <line class="link" x1="110" y1="90" x2="115" y2="235"/>
+          <circle class="n1" cx="210" cy="150" r="44"/>
+          <circle class="n2" cx="110" cy="90" r="30"/>
+          <circle class="n2" cx="320" cy="95" r="26"/>
+          <circle class="n3" cx="300" cy="240" r="21"/>
+          <circle class="n3" cx="115" cy="235" r="18"/>
+          <text x="210" y="208" text-anchor="middle">Money worries</text>
+          <text x="110" y="137" text-anchor="middle">Feeling low</text>
+          <text x="320" y="138" text-anchor="middle">Caring for someone</text>
+          <text x="300" y="278" text-anchor="middle">Housing</text>
+          <text x="115" y="270" text-anchor="middle">Loneliness</text>
+          <text class="s" x="12" y="20">TOPIC MAP · SIZE = HOW OFTEN</text>
+        </svg>
+        <p class="map-cap">A map of themes, not places. Larger circles mean more people looked. Lines show themes people moved between.</p>
+      </div>
+      <div class="notes">
+        <div class="note"><span class="k">What people looked for</span><p>Searches for help with money rose through the month, peaking in the week before payday.</p></div>
+        <div class="note"><span class="k">What they couldn't find</span><p>Many people who looked for carers' support left without reaching a service they could contact.</p></div>
+        <div class="note"><span class="k">A question for services</span><p>Is support for unpaid carers easy enough to find from the pages people already use?</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<section>
+  <span class="label">How it would work</span>
+  <h2>Listen. Learn. Act.</h2>
+  <div class="lla">
+    <div>
+      <div class="verb">Listen</div>
+      <div class="who">The council</div>
+      <p>Add Plausible to the parts of the council website where people go looking for help, starting with four:</p>
+      <ul>
+        <li>SEND Local Offer</li>
+        <li>Adult social care</li>
+        <li>Cost of living help</li>
+        <li>Homelessness and housing advice</li>
+      </ul>
+      <p class="small">One line of code. Cookieless and EU-hosted. The council owns the account and the data, and shares read access.</p>
+    </div>
+    <div>
+      <div class="verb">Learn</div>
+      <div class="who">Neighbourhood CoLab</div>
+      <p>CoLab is commissioned to interpret the data and publish an open Neighbourhood Brief, starting with Weymouth and Portland.</p>
+      <p class="small">The model is open. The interpretation is the work. Dorset-wide when the council is ready.</p>
+    </div>
+    <div>
+      <div class="verb">Act</div>
+      <div class="who">The council and its partners</div>
+      <p>Services decide what to change, using what residents are already telling them.</p>
+      <p class="small">CoLab interprets. It never decides. That keeps the Brief trusted.</p>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <span class="label">Next step</span>
+  <h2>Listening starts with one line of code. Understanding takes people who know this place.</h2>
+  <p>I'd be glad to talk it through, with whoever you think should be in the room.</p>
+  <div class="contact">
+    <div class="name">Mark Winterburn</div>
+    <span>hello@markwinterburn.uk</span>
+    <span>07977 421299</span>
+  </div>
+</section>
+
+<footer>Neighbourhood CoLab CIC · Weymouth and Portland</footer>
+</div>
+</body>
+</html>
